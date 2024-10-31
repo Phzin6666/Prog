@@ -31,8 +31,6 @@ while True:
             desejacontinuar=str(input("Deseja continuar? S/N: "))
             if desejacontinuar == N:
                 break
-    else:
-        break
     beber=str(input("Deseja beber algo? S/N: "))
     if beber == S:
         valorPizza=valorPizza+8
