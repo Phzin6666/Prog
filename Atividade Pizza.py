@@ -20,6 +20,19 @@ YELLOW = (255, 255, 0)
 # Fonte
 FONT = pygame.font.Font(None, 30)
 
+# Imagens
+BACKGROUND_IMG = pygame.image.load("images/background.png")
+BACKGROUND_IMG = pygame.transform.scale(BACKGROUND_IMG, (WIDTH, HEIGHT))
+
+TOWER_IMAGES = [
+    pygame.transform.scale(pygame.image.load("images/tower1.png"), (30, 30)),
+    pygame.transform.scale(pygame.image.load("images/tower2.png"), (30, 30)),
+    pygame.transform.scale(pygame.image.load("images/tower3.png"), (30, 30)),
+]
+
+ENEMY_IMAGE = pygame.transform.scale(pygame.image.load("images/enemy.png"), (20, 20))
+PROJECTILE_IMAGE = pygame.transform.scale(pygame.image.load("images/projectile.png"), (10, 10))
+
 # Configurações gerais
 TOWER_COSTS = [100, 200, 250]  # Custo de construção
 UPGRADE_COSTS = [100, 200, 250]  # Custo de upgrade correspondente ao tipo
@@ -41,8 +54,8 @@ def draw_path(win):
 
 
 def draw_background(win):
-    """Preenche o fundo da tela."""
-    win.fill(WHITE)
+    """Desenha o fundo da tela."""
+    win.blit(BACKGROUND_IMG, (0, 0))
 
 
 def draw_zone(win, zone_health):
@@ -85,8 +98,8 @@ class Enemy:
         return self.current_point == len(self.path) - 1
 
     def draw(self, win):
-        """Desenha o inimigo e sua barra de vida."""
-        pygame.draw.circle(win, RED, (int(self.x), int(self.y)), 10)
+        """Desenha o inimigo usando imagem."""
+        win.blit(ENEMY_IMAGE, (int(self.x) - 10, int(self.y) - 10))
         health_bar_width = 30
         health_ratio = self.health / self.max_health
         pygame.draw.rect(win, BLACK, (self.x - health_bar_width // 2, self.y - 15, health_bar_width, 5))
@@ -147,8 +160,8 @@ class Tower:
             self.update_stats()
 
     def draw(self, win):
-        """Desenha a torre."""
-        pygame.draw.circle(win, self.status.color, (self.x, self.y), 15)
+        """Desenha a torre com a imagem correspondente."""
+        win.blit(TOWER_IMAGES[self.status.color], (self.x - 15, self.y - 15))
         pygame.draw.circle(win, BLACK, (self.x, self.y), self.range, 1)
         level_text = FONT.render(f"Lv{self.level}", True, BLACK)
         win.blit(level_text, (self.x - level_text.get_width() // 2, self.y - 30))
@@ -173,8 +186,12 @@ class Projectile:
         return False
 
     def draw(self, win):
-        """Desenha o projétil."""
-        pygame.draw.circle(win, BLACK, (int(self.x), int(self.y)), 5)
+        """Desenha o projétil com a imagem correspondente."""
+        win.blit(PROJECTILE_IMAGE, (int(self.x) - 5, int(self.y) - 5))
+
+
+# A função principal permanece inalterada, exceto pela integração com as novas imagens.
+
 
 
 ### Função principal ###
